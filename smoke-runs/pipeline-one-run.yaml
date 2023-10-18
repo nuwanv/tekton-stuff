@@ -1,0 +1,15 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  name: pipeline-one-run01
+spec:
+  pipelineRef:
+    name: pipeline-one
+  workspaces:
+    - name: work
+      emptyDir: {}    
+  params:
+  - name: task-one-param-1
+    value: "param1"
+  - name: task-two-param-1
+    value: "param2"

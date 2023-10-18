@@ -1,0 +1,19 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: task-two
+spec:
+  params:
+  - name: task-two-param-1
+    description: task-two-param1
+    type: string
+  workspaces:
+    - name: work
+      mountPath: /workspace
+  steps:
+  - name: task-two-step-1
+    image: bash
+    command: ["bash", "-c"]
+    args:
+      # - echo -e 'Hello Triggers!\nContent-Type is $(params.contenttype)'
+      - echo -e "task-two-step-1 running with task-two-param-1 $(params.task-two-param-1)"    

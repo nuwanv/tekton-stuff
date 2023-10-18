@@ -1,0 +1,37 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: pipeline-one
+spec:
+  workspaces:
+    - name: work
+  params:
+  - name: task-one-param-1
+    description: pipeline-one-param-1
+    default: This is the default message
+    type: string
+  - name: task-two-param-1
+    description: pipeline-one-param-2
+    default: This is the default message
+    type: string
+  tasks:
+  - name: task-one
+    taskRef:
+      name: task-one
+    workspaces:
+    - name: work
+      workspace: work
+    params:
+    - name: task-one-param-1
+      value: $(params.task-one-param-1)      
+  - name: task-two
+    taskRef:
+      name: task-two  
+    runAfter:
+    - task-one
+    workspaces:
+    - name: work
+      workspace: work
+    params:
+    - name: task-two-param-1
+      value: $(params.task-two-param-1)        
