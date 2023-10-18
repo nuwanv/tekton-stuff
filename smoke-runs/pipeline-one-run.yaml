@@ -7,7 +7,14 @@ spec:
     name: pipeline-one
   workspaces:
     - name: work
-      emptyDir: {}    
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi
+          storageClassName: default
   params:
   - name: task-one-param-1
     value: "value1"

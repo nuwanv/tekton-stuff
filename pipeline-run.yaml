@@ -1,0 +1,115 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"tekton.dev/v1","kind":"Pipeline","metadata":{"annotations":{},"name":"pipeline-one","namespace":"ci-trig"},"spec":{"finally":[{"name":"task-finalize","params":[{"name":"parent-pipeline-run-name","value":"$(params.pipeline-run-instance-name)"}],"taskRef":{"name":"task-finalize"},"workspaces":[{"name":"work","workspace":"work"}]}],"params":[{"default":"This is the default for task-one-param-1","description":"pipeline-one-param-1","name":"task-one-param-1","type":"string"},{"default":"This is the default for task-two-param-1","description":"pipeline-one-param-2","name":"task-two-param-1","type":"string"},{"default":"not-set","description":"name of the pipeline run instance","name":"pipeline-run-instance-name","type":"string"}],"tasks":[{"name":"task-one","params":[{"name":"task-one-param-1","value":"$(params.task-one-param-1)"}],"taskRef":{"name":"task-one"},"workspaces":[{"name":"work","workspace":"work"}]},{"name":"task-two","params":[{"name":"task-two-param-1","value":"$(params.task-two-param-1)"}],"runAfter":["task-one"],"taskRef":{"name":"task-two"},"workspaces":[{"name":"work","workspace":"work"}]}],"workspaces":[{"name":"work"}]}}
+  creationTimestamp: "2023-10-18T12:28:33Z"
+  generateName: pipeline-one-run-
+  generation: 1
+  labels:
+    tekton.dev/pipeline: pipeline-one
+  name: pipeline-one-run-727h5
+  namespace: ci-trig
+  resourceVersion: "146931700"
+  uid: 02dae5b3-bbd0-4f1e-b094-e85107436197
+spec:
+  params:
+  - name: task-one-param-1
+    value: value1
+  - name: task-two-param-1
+    value: value2
+  - name: pipeline-run-instance-name
+    value: $(context.pipelineRun.name)
+  pipelineRef:
+    name: pipeline-one
+  taskRunTemplate:
+    serviceAccountName: default
+  timeouts:
+    pipeline: 1h0m0s
+  workspaces:
+  - name: work
+    volumeClaimTemplate:
+      metadata:
+        creationTimestamp: null
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: default
+      status: {}
+status:
+  childReferences:
+  - apiVersion: tekton.dev/v1beta1
+    kind: TaskRun
+    name: pipeline-one-run-727h5-task-one
+    pipelineTaskName: task-one
+  - apiVersion: tekton.dev/v1beta1
+    kind: TaskRun
+    name: pipeline-one-run-727h5-task-two
+    pipelineTaskName: task-two
+  - apiVersion: tekton.dev/v1beta1
+    kind: TaskRun
+    name: pipeline-one-run-727h5-task-finalize
+    pipelineTaskName: task-finalize
+  completionTime: "2023-10-18T12:29:11Z"
+  conditions:
+  - lastTransitionTime: "2023-10-18T12:29:11Z"
+    message: 'Tasks Completed: 3 (Failed: 0, Cancelled 0), Skipped: 0'
+    reason: Succeeded
+    status: "True"
+    type: Succeeded
+  finallyStartTime: "2023-10-18T12:29:05Z"
+  pipelineSpec:
+    finally:
+    - name: task-finalize
+      params:
+      - name: parent-pipeline-run-name
+        value: pipeline-one-run-727h5
+      taskRef:
+        kind: Task
+        name: task-finalize
+      workspaces:
+      - name: work
+        workspace: work
+    params:
+    - default: This is the default for task-one-param-1
+      description: pipeline-one-param-1
+      name: task-one-param-1
+      type: string
+    - default: This is the default for task-two-param-1
+      description: pipeline-one-param-2
+      name: task-two-param-1
+      type: string
+    - default: not-set
+      description: name of the pipeline run instance
+      name: pipeline-run-instance-name
+      type: string
+    tasks:
+    - name: task-one
+      params:
+      - name: task-one-param-1
+        value: value1
+      taskRef:
+        kind: Task
+        name: task-one
+      workspaces:
+      - name: work
+        workspace: work
+    - name: task-two
+      params:
+      - name: task-two-param-1
+        value: value2
+      runAfter:
+      - task-one
+      taskRef:
+        kind: Task
+        name: task-two
+      workspaces:
+      - name: work
+        workspace: work
+    workspaces:
+    - name: work
+  startTime: "2023-10-18T12:28:33Z"

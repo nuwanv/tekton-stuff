@@ -16,8 +16,8 @@ spec:
     type: string
   - name: pipeline-run-instance-name
     description: name of the pipeline run instance
-    default: not-set  
-    type: string    
+    default: not-set
+    type: string
   tasks:
   - name: task-one
     taskRef:
@@ -46,6 +46,6 @@ spec:
         workspace: work
       params:
       - name: parent-pipeline-run-name
-        value: $(params.pipeline-run-instance-name)
+        value: $(params.pipeline-run-instance-name)        
       taskRef:
         name: task-finalize
