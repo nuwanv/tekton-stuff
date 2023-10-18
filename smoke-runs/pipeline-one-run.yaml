@@ -13,3 +13,5 @@ spec:
     value: "value1"
   - name: task-two-param-1
     value: "value2"
+  - name: pipeline-run-instance-name
+    value: $(context.pipelineRun.name)

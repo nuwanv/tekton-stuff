@@ -14,6 +14,10 @@ spec:
     description: pipeline-one-param-2
     default: This is the default for task-two-param-1
     type: string
+  - name: pipeline-run-instance-name
+    description: name of the pipeline run instance
+    default: not-set  
+    type: string    
   tasks:
   - name: task-one
     taskRef:
@@ -34,4 +38,14 @@ spec:
       workspace: work
     params:
     - name: task-two-param-1
-      value: $(params.task-two-param-1)        
+      value: $(params.task-two-param-1)
+  finally:
+    - name: task-finalize
+      workspaces:
+      - name: work
+        workspace: work
+      params:
+      - name: parent-pipeline-run-name
+        value: $(params.pipeline-run-instance-name)
+      taskRef:
+        name: task-finalize

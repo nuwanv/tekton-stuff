@@ -1,0 +1,18 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: task-finalize
+spec:
+  params:
+  - name: parent-pipeline-run-name
+    description: name of the parent pipeline run
+    type: string
+  workspaces:
+    - name: work
+      mountPath: /workspace
+  steps:
+  - name: trigger-cleanup-activity
+    image: bash
+    script: |
+      #!/usr/bin/env bash
+      echo "triggering cleanup for: $(params.parent-pipeline-run-name)"
