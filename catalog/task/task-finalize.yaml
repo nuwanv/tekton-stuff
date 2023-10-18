@@ -12,10 +12,19 @@ spec:
       # mountPath: /workspace
   steps:
   - name: trigger-cleanup-activity
-    image: bash
+    image: alpine/curl:3.14
     script: |
-      #!/usr/bin/env bash
+      #!/usr/bin/env sh
       echo "triggering cleanup for: $(params.parent-pipeline-run-name)"
       echo "pvc used: $(workspaces.work.claim)"
       echo "file path: $(workspaces.work.path)/file1"
       cat "$(workspaces.work.path)/file1"
+      # calling the trigger-cleanup-activity
+      curl -X POST \
+        http://el-post-activity-listener.ci-trig.svc.cluster.local:8080 \
+        -H 'Content-Type: application/json' \
+        -d '{
+        "post-task-one-param-1": "file1",
+        "pvc-name": "$(workspaces.work.claim)",
+        "parent-pipeline-name": "$(params.parent-pipeline-run-name)"
+      }'
