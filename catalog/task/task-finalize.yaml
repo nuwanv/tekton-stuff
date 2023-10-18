@@ -17,3 +17,5 @@ spec:
       #!/usr/bin/env bash
       echo "triggering cleanup for: $(params.parent-pipeline-run-name)"
       echo "pvc used: $(workspaces.work.claim)"
+      echo "file path: $(workspaces.work.path)/file1"
+      cat "$(workspaces.work.path)/file1"

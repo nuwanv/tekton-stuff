@@ -1,0 +1,26 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: pipeline-post-activity
+spec:
+  workspaces:
+    - name: work
+  params:
+  - name: post-task-one-param-1
+    description: pipeline-post-activity-param-1
+    default: This is the default for post-task-one-param-1
+    type: string
+  - name: pipeline-run-instance-name
+    description: name of the pipeline run instance
+    default: not-set
+    type: string
+  tasks:
+  - name: post-task-one
+    taskRef:
+      name: post-task-one
+    workspaces:
+    - name: work
+      workspace: work
+    params:
+    - name: post-task-one-param-1
+      value: $(params.post-task-one-param-1)

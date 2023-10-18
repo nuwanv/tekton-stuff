@@ -1,0 +1,26 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: post-task-one
+spec:
+  params:
+  - name: post-task-one-param-1
+    description: post-task-one-param1
+    type: string
+  workspaces:
+    - name: work
+      mountPath: /workspace
+  steps:
+  - name: post-task-one-step-1
+    image: bash
+    env:
+    - name: RESULT_FILE_PATH
+      value: "$(workspaces.work.path)/$(params.post-task-one-param-1)"
+    script: |
+      #!/usr/bin/env bash
+      echo "post-task-one-step-1 running with post-task-one-param-1 $(params.post-task-one-param-1)"
+      if test -f "${RESULT_FILE_PATH}"; then
+        cat "${RESULT_FILE_PATH}"
+      else
+        echo "File not found: ${RESULT_FILE_PATH}"
+      fi

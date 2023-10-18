@@ -17,7 +17,7 @@ spec:
           storageClassName: default
   params:
   - name: task-one-param-1
-    value: "value1"
+    value: "file1"
   - name: task-two-param-1
     value: "value2"
   - name: pipeline-run-instance-name
