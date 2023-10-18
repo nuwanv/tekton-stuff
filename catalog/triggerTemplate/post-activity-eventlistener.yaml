@@ -1,0 +1,12 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: post-activity-listener
+spec:
+  serviceAccountName: default
+  triggers:
+    - name: post-activity-trig
+      bindings:
+        - ref: post-activity-binding
+      template:
+        ref: pipeline-post-activity-run-template

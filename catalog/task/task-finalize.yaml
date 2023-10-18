@@ -9,7 +9,7 @@ spec:
     type: string
   workspaces:
     - name: work
-      mountPath: /workspace
+      # mountPath: /workspace
   steps:
   - name: trigger-cleanup-activity
     image: bash

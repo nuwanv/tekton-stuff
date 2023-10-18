@@ -1,0 +1,14 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  generateName: pipeline-post-activity-run-
+spec:
+  pipelineRef:
+    name: pipeline-post-activity
+  workspaces:
+    - name: work
+      persistentVolumeClaim:
+        claimName: pvc-5b4eca38ce
+  params:
+  - name: post-task-one-param-1
+    value: "file1"

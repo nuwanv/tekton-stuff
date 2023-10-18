@@ -10,10 +10,6 @@ spec:
     description: pipeline-post-activity-param-1
     default: This is the default for post-task-one-param-1
     type: string
-  - name: pipeline-run-instance-name
-    description: name of the pipeline run instance
-    default: not-set
-    type: string
   tasks:
   - name: post-task-one
     taskRef:

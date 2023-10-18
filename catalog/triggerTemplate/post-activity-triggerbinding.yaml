@@ -1,0 +1,12 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: post-activity-binding
+spec:
+  params:
+  - name: post-task-one-param-1
+    value: $(body.post-task-one-param-1)
+  - name: pvc-name
+    value: $(body.pvc-name)
+  - name: parent-pipeline-name
+    value: $(body.parent-pipeline-name)

@@ -1,0 +1,31 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: pipeline-post-activity-run-template
+spec:
+  params:
+    - name: post-task-one-param-1
+      description: The value for post-task-one-param-1
+      default: "not-set"
+    - name: pvc-name
+      description: The name of the pvc this pipeline-post-activity pipeline run should use
+      default: "not-set"
+    - name: parent-pipeline-name
+      description: The name of the parent pipeline this cleanup activity is associated with
+      default: "not-set"
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1
+      kind: PipelineRun
+      metadata:
+        name: $(tt.params.parent-pipeline-name)-post-activity-run
+        # generateName: post-activity-run-
+      spec:
+        pipelineRef:
+          name: pipeline-post-activity
+        params:
+          - name: post-task-one-param-1
+            value: $(tt.params.post-task-one-param-1)
+        workspaces:
+          - name: work
+            persistentVolumeClaim:
+              claimName: $(tt.params.pvc-name)          
