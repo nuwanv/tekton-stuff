@@ -8,11 +8,11 @@ spec:
   params:
   - name: task-one-param-1
     description: pipeline-one-param-1
-    default: This is the default message
+    default: This is the default for task-one-param-1
     type: string
   - name: task-two-param-1
     description: pipeline-one-param-2
-    default: This is the default message
+    default: This is the default for task-two-param-1
     type: string
   tasks:
   - name: task-one

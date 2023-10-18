@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  name: pipeline-one-run01
+  generateName: pipeline-one-run-
 spec:
   pipelineRef:
     name: pipeline-one
@@ -10,6 +10,6 @@ spec:
       emptyDir: {}    
   params:
   - name: task-one-param-1
-    value: "param1"
+    value: "value1"
   - name: task-two-param-1
-    value: "param2"
+    value: "value2"
