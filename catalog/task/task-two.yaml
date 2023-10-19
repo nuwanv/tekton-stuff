@@ -13,7 +13,7 @@ spec:
   steps:
   - name: task-two-step-1
     image: bash
-    command: ["bash", "-c"]
-    args:
-      # - echo -e 'Hello Triggers!\nContent-Type is $(params.contenttype)'
-      - echo -e "task-two-step-1 running with task-two-param-1 $(params.task-two-param-1)"    
+    script: |
+      #!/usr/bin/env bash
+      echo "task-two-param-1: $(params.task-two-param-1)"
+      echo "exiting..."

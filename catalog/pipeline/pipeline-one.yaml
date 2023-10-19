@@ -46,6 +46,8 @@ spec:
         workspace: work
       params:
       - name: parent-pipeline-run-name
-        value: $(params.pipeline-run-instance-name)        
+        value: $(params.pipeline-run-instance-name)
+      - name: result-file-name
+        value: $(params.task-one-param-1) 
       taskRef:
         name: task-finalize

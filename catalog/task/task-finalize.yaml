@@ -7,24 +7,32 @@ spec:
   - name: parent-pipeline-run-name
     description: name of the parent pipeline run
     type: string
+  - name: result-file-name
+    description: name of the file name passed as a param 'task-one-param-1' in 'task-one-step-1'
+    type: string
   workspaces:
     - name: work
       # mountPath: /workspace
   steps:
   - name: trigger-cleanup-activity
     image: alpine/curl:3.14
+    env:
+    - name: RESULT_FILE_PATH
+      value: "$(workspaces.work.path)/$(params.result-file-name)"    
     script: |
       #!/usr/bin/env sh
       echo "triggering cleanup for: $(params.parent-pipeline-run-name)"
       echo "pvc used: $(workspaces.work.claim)"
-      echo "file path: $(workspaces.work.path)/file1"
-      cat "$(workspaces.work.path)/file1"
+      echo "result file: $(params.result-file-name)"
+      echo "file path: ${RESULT_FILE_PATH}"
+      echo "contents of: ${RESULT_FILE_PATH} --> $(cat "${RESULT_FILE_PATH}")"
+
       # calling the trigger-cleanup-activity
       curl -X POST \
         http://el-post-activity-listener.ci-trig.svc.cluster.local:8080 \
         -H 'Content-Type: application/json' \
         -d '{
-        "post-task-one-param-1": "file1",
+        "post-task-one-param-1": "$(params.result-file-name)",
         "pvc-name": "$(workspaces.work.claim)",
         "parent-pipeline-name": "$(params.parent-pipeline-run-name)"
       }'
